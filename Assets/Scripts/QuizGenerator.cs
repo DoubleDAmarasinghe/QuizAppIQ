@@ -29,6 +29,8 @@ public class QuizGenerator : MonoBehaviour
     [SerializeField]
     private string[] questions;
 
+    private SoundManager soundManager;
+
     private string[][] answers = {
         new string[] { "Question1Answer1", "Question1Answer2", "Question1Answer3", "Question1Answer4" },
         new string[] { "Question2Answer1", "Question2Answer2", "Question2Answer3", "Question2Answer4" },
@@ -53,6 +55,8 @@ public class QuizGenerator : MonoBehaviour
 
     void Start()
     {
+        soundManager = GameObject.FindObjectOfType<SoundManager>();
+
         correctPannelAnim = correctPannel.GetComponent<Animator>();
         inCorrectPannelAnim = inCorrectPannel.GetComponent<Animator>();
         gameEndPannelAnim = gameEndPannel.GetComponent<Animator>();
@@ -74,12 +78,15 @@ public class QuizGenerator : MonoBehaviour
            score++;
            questionNumber++;
            correctPannelAnim.Play("CorrectPannelUp");
+           soundManager.PlayAudioContainer("Correct");
+           
            //NextQuestion();
         }
         else
         {
             Debug.Log("Incorrect answer, try again.");
             inCorrectPannelAnim.Play("InCorrectPannelUp");
+            soundManager.PlayAudioContainer("Incorrect");
         }
     }
 
